@@ -22,7 +22,55 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	'''
 
 	#define the data type
-	ErrVal = ['']
+	ErrVal = {'Year':999,
+				'DOY':999,
+				'Hour':99,
+				'Minute':99,
+				'SC_IMF':99,
+				'SC_Plasma':99,
+				'N_IMF':999,
+				'N_Plasma':999,
+				'PercInterp':999,
+				'TimeShift':999999,
+				'RMSTimeShift':999999,
+				'RMSPhaseFrontNorm':99.99,
+				'dTime':999999,
+				'B':9999.99,
+				'BxGSE':9999.99,
+				'ByGSE':9999.99,
+				'BzGSE':9999.99,
+				'ByGSM':9999.99,
+				'BzGSM':9999.99,
+				'RMSSDBScalar':9999.99,
+				'RMSSDFieldVector':9999.99,
+				'FlowSpeed':99999.9,
+				'Vx':99999.9,
+				'Vy':99999.9,
+				'Vz':99999.9,
+				'ProtonDensity':999.99,
+				'Temp':9999999.0,
+				'FlowPressure':99.99,
+				'E':999.99,
+				'Beta':999.99,
+				'MA':999.9,
+				'Xsc':9999.99,
+				'Ysc':9999.99,
+				'Zsc':9999.99,
+				'Xbsn':9999.99,
+				'Ybsn':9999.99,
+				'Zbsn':9999.99,
+				'AE':99999,
+				'AL':99999,
+				'AU':99999,
+				'SymD':99999,
+				'SymH':99999,
+				'AsyD':99999,
+				'AsyH':99999,
+				'PC':999.99,
+				'Ms':99.9,
+				'Pflux10':99999.99,
+				'Pflux30':99999.99,
+				'Pflux60':99999.99}
 	if Res == 1:
 		indtype = [('Year','int32'),('DOY','int32'),('Hour','int32'),('Minute','int32'),
 					('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
@@ -53,7 +101,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 					('SymD','float32'),('SymH','float32'),('AsyD','float32'),('AsyH','float32'),
 					('PC','float32'),('Ms','float32'),('Pflux10','float32'),('Pflux30','float32'),
 					('Pflux60','float32')]
-		outdtype = Globals.dtype2
+		outdtype = Globals.dtype5
 
 	#read the file
 	data = pf.ReadASCIIData(FullPath,Header=False,dtype=indtype)
@@ -75,6 +123,12 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	for f in fields:
 		if f in out.dtype.names:
 			out[f] = data[f]
+			bad = np.where(out[f] == ErrVal[f])[0]
+			if bad.size > 0:
+				if 'float' in str(out[f].dtype):
+					out[f][bad] = np.nan
+
+				
 			
 	#get the year from the file name		
 	Year = np.int32(fname[-8:-4])
