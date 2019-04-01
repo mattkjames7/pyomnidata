@@ -43,7 +43,7 @@ def _ParseFTP():
 		
 		#now let's get the ftp address
 		s = lines[i].split('"')
-		Addresses[i] = [s[1]]
+		Addresses[i] = s[1]
 		
 		#now the file name
 		s = s[1].split('/')

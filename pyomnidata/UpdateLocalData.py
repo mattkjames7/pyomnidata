@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from . import Globals.
+from . import Globals
 from ._ReadDataIndex import _ReadDataIndex
 from ._DownloadFTPIndex import _DownloadFTPIndex
 from ._ParseFTP import _ParseFTP
@@ -18,7 +18,7 @@ def UpdateLocalData(Force=False):
 	
 	#let's download and read the FTP index
 	status = _DownloadFTPIndex()
-	is not status:
+	if not status:
 		print('Download failed; check for write permission to data folder')
 		return
 	FileNames,Addresses,UpdateDates,Res = _ParseFTP()

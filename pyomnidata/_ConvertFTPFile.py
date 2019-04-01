@@ -4,6 +4,9 @@ import numpy as np
 import PyFileIO as pf
 import RecarrayTools as RT
 import DateTimeTools as TT
+from ._ReadDataIndex import _ReadDataIndex
+from ._UpdateDataIndex import _UpdateDataIndex
+
 
 def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	'''
@@ -25,7 +28,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
 					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
-					('BzGSM','float32'),('RMSSDBScalar','flaot32'),('RMSSDFieldVector','float32'),
+					('BzGSM','float32'),('RMSSDBScalar','float32'),('RMSSDFieldVector','float32'),
 					('FlowSpeed','float32'),('Vx','float32'),('Vy','float32'),('Vz','float32'),
 					('ProtonDensity','float32'),('Temp','float32'),('FlowPressure','float32'),
 					('E','float32'),('Beta','float32'),('MA','float32'),('Xsc','float32'),
@@ -38,7 +41,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
 					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
-					('BzGSM','float32'),('RMSSDBScalar','flaot32'),('RMSSDFieldVector','float32'),
+					('BzGSM','float32'),('RMSSDBScalar','float32'),('RMSSDFieldVector','float32'),
 					('FlowSpeed','float32'),('Vx','float32'),('Vy','float32'),('Vz','float32'),
 					('ProtonDensity','float32'),('Temp','float32'),('FlowPressure','float32'),
 					('E','float32'),('Beta','float32'),('MA','float32'),('Xsc','float32'),
@@ -52,7 +55,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
 					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
-					('BzGSM','float32'),('RMSSDBScalar','flaot32'),('RMSSDFieldVector','float32'),
+					('BzGSM','float32'),('RMSSDBScalar','float32'),('RMSSDFieldVector','float32'),
 					('FlowSpeed','float32'),('Vx','float32'),('Vy','float32'),('Vz','float32'),
 					('ProtonDensity','float32'),('Temp','float32'),('FlowPressure','float32'),
 					('E','float32'),('Beta','float32'),('MA','float32'),('Xsc','float32'),
@@ -66,7 +69,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
 					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
-					('BzGSM','float32'),('RMSSDBScalar','flaot32'),('RMSSDFieldVector','float32'),
+					('BzGSM','float32'),('RMSSDBScalar','float32'),('RMSSDFieldVector','float32'),
 					('FlowSpeed','float32'),('Vx','float32'),('Vy','float32'),('Vz','float32'),
 					('ProtonDensity','float32'),('Temp','float32'),('FlowPressure','float32'),
 					('E','float32'),('Beta','float32'),('MA','float32'),('Xsc','float32'),
@@ -85,7 +88,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 
 	#convert dates
 	for i in range(0,n):
-		out.Date[i] = TT.DayNoToDate(data.Year[i],data.DOY[i])
+		out.Date[i] = TT.DayNotoDate(data.Year[i],data.DOY[i])
 
 	#convert time
 	out.ut = data.Hour + data.Minute/60.0
@@ -97,7 +100,34 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 		if f in out.dtype.names:
 			out[f] = data[f]
 			
+	#get the year from the file name		
+	Year = np.int32(fname[-8:-4])
+	
+	
 	#save file
+	outfname = 'OMNI-{:1d}min-{:4d}.bin'.format(Res,Year)
+	outpath = Globals.DataPath+'{:1d}/'.format(Res)
+	if not os.path.isdir(outpath):
+		os.system('mkdir -pv '+outpath)
+	RT.SaveRecarray(out,outpath+outfname)
+	print('Saved file: '+outfname)
 	
 	
 	#update index
+	idx = _ReadDataIndex()
+	use = np.where(idx.OldFileName == fname)[0]
+	if use.size == 0:
+		#this file does not yet exist within the index file
+		tmp = np.recarray(1,dtype=idx.dtype)
+		tmp[0].FileName = outfname
+		tmp[0].OldFileName = fname
+		tmp[0].UpdateDate = UpdateDate
+		tmp[0].Res = Res
+		idx = RT.JoinRecarray(idx,tmp)
+	else:
+		#file exists, update the information
+		idx[use[0]].FileName = outfname
+		idx[use[0]].OldFileName = fname
+		idx[use[0]].UpdateDate = UpdateDate
+		idx[use[0]].Res = Res
+	_UpdateDataIndex(idx)

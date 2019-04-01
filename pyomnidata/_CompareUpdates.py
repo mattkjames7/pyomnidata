@@ -21,9 +21,10 @@ def _CompareUpdates(newdates,newfiles,idx):
 	update = np.zeros(nf,dtype='bool')
 	for i in range(0,nf):
 		#check if new file matches old file
-		if newfiles[i] in idx.OldFiles:
+		if newfiles[i] in idx.OldFileName:
+			use = np.where(idx.OldFileName == newfiles[i])[0][0]
 			#compare update dates
-			if newdates[i] > idx.UpdateDate:
+			if newdates[i] > idx.UpdateDate[use]:
 				update[i] = True
 		else:
 			#if we get to this point then we need to update

@@ -16,7 +16,7 @@ def _DownloadFTPFile(addr,fname):
 	'''
 	
 	#wget the file
-	os.system('wget '+addr+' -O '+Globals.DataPath+'tmp/')
+	os.system('wget '+addr+' -O '+Globals.DataPath+'tmp/'+fname)
 	
 
 	#return the file name
