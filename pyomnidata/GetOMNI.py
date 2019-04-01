@@ -19,11 +19,11 @@ def GetOMNI(Year,Res=5):
 
 	#list all of the years to load
 	if np.size(Year) == 1:
-		yrs = np.array([Year])
+		yrs = np.array([Year]).flatten()
 	else:
 		yrs = np.arange(Year[1] - Year[0] + 1) + Year[0]
 	nyr = np.size(yrs)
-	
+
 	#select appropriate data pointer
 	if Res == 1:
 		data = Globals.loaded1
