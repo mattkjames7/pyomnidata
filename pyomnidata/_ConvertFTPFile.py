@@ -22,6 +22,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	'''
 
 	#define the data type
+	ErrVal = ['']
 	if Res == 1:
 		indtype = [('Year','int32'),('DOY','int32'),('Hour','int32'),('Minute','int32'),
 					('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
@@ -36,19 +37,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 					('Zbsn','float32'),('AE','float32'),('AL','float32'),('AU','float32'),
 					('SymD','float32'),('SymH','float32'),('AsyD','float32'),('AsyH','float32'),
 					('PC','float32'),('Ms','float32')]
-		outdtype = [('Date','int32'),('ut','float32'),
-					('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
-					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
-					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
-					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
-					('BzGSM','float32'),('RMSSDBScalar','float32'),('RMSSDFieldVector','float32'),
-					('FlowSpeed','float32'),('Vx','float32'),('Vy','float32'),('Vz','float32'),
-					('ProtonDensity','float32'),('Temp','float32'),('FlowPressure','float32'),
-					('E','float32'),('Beta','float32'),('MA','float32'),('Xsc','float32'),
-					('Ysc','float32'),('Zsc','float32'),('Xbsn','float32'),('Ybsn','float32'),
-					('Zbsn','float32'),('AE','float32'),('AL','float32'),('AU','float32'),
-					('SymD','float32'),('SymH','float32'),('AsyD','float32'),('AsyH','float32'),
-					('PC','float32'),('Ms','float32')]
+		outdtype = Globals.dtype1
 	else:
 		indtype = [('Year','int32'),('DOY','int32'),('Hour','int32'),('Minute','int32'),
 					('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
@@ -64,20 +53,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 					('SymD','float32'),('SymH','float32'),('AsyD','float32'),('AsyH','float32'),
 					('PC','float32'),('Ms','float32'),('Pflux10','float32'),('Pflux30','float32'),
 					('Pflux60','float32')]
-		outdtype = [('Date','int32'),('ut','float32'),
-					('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
-					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
-					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
-					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
-					('BzGSM','float32'),('RMSSDBScalar','float32'),('RMSSDFieldVector','float32'),
-					('FlowSpeed','float32'),('Vx','float32'),('Vy','float32'),('Vz','float32'),
-					('ProtonDensity','float32'),('Temp','float32'),('FlowPressure','float32'),
-					('E','float32'),('Beta','float32'),('MA','float32'),('Xsc','float32'),
-					('Ysc','float32'),('Zsc','float32'),('Xbsn','float32'),('Ybsn','float32'),
-					('Zbsn','float32'),('AE','float32'),('AL','float32'),('AU','float32'),
-					('SymD','float32'),('SymH','float32'),('AsyD','float32'),('AsyH','float32'),
-					('PC','float32'),('Ms','float32'),('Pflux10','float32'),('Pflux30','float32'),
-					('Pflux60','float32')]
+		outdtype = Globals.dtype2
 
 	#read the file
 	data = pf.ReadASCIIData(FullPath,Header=False,dtype=indtype)
