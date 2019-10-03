@@ -15,7 +15,7 @@ def _DownloadFTPIndex():
 		os.system('mkdir -pv '+Globals.DataPath+'tmp/')
 
 	#download using wget
-	os.system('wget ftp://spdf.gsfc.nasa.gov/pub/data/omni/high_res_omni/ -O '+Globals.DataPath+'tmp/index.html')
+	os.system('wget https://spdf.gsfc.nasa.gov/pub/data/omni/high_res_omni/ -O '+Globals.DataPath+'tmp/index.html')
 	
 
 	#check that the file exists, return True if so
