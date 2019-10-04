@@ -2,6 +2,27 @@ import os
 from . import Globals
 import PyFileIO as pf
 import numpy as np
+import copy
+import re
+
+def _HTMLStrip(line):
+	'''
+	Strips the HTML crap off a string, leaving spaces in its place.
+	
+	'''
+	#copy the string
+	a = copy.deepcopy(line)
+
+	#find all instances of < and >
+	lt = np.array([m.start() for m in re.finditer('<',a)])
+	gt = np.array([m.start() for m in re.finditer('>',a)])
+
+	#replace each substring with spaces
+	n = np.min([lt.size,gt.size])
+	for i in range(0,n):
+		a = a.replace(a[lt[i]:gt[i]+1],' '*(gt[i]-lt[i]+1))
+		
+	return a
 
 def _ParseFTP():
 	'''
@@ -35,19 +56,21 @@ def _ParseFTP():
 	
 	for i in range(0,nl):
 		#deal with date first
-		s = lines[i].split()
-		yr = np.int32(s[0])
-		mn = Months[s[1]]
-		dy = np.int32(s[2])
+		lstr = _HTMLStrip(lines[i])
+		s = lstr.split()
+		ds = s[1].split('-')
+		yr = np.int32(ds[0])
+		mn = np.int32(ds[1])
+		dy = np.int32(ds[2])
 		UpdateDates[i] = yr*10000 + mn*100 + dy
 		
 		#now let's get the ftp address
-		s = lines[i].split('"')
-		Addresses[i] = s[1]
+		#s = lines[i].split('"')
+		Addresses[i] = 'https://spdf.gsfc.nasa.gov/pub/data/omni/high_res_omni/'+s[0]
 		
 		#now the file name
-		s = s[1].split('/')
-		FileNames[i] = s[-1]
+		#s = s[1].split('/')
+		FileNames[i] = s[0]
 		
 	return FileNames,Addresses,UpdateDates,Res
 	
