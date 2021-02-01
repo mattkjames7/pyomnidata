@@ -93,11 +93,7 @@ def PlotOMNI(Param,Date,ut=[0.0,24.0],Color=None,fig=None,maps=[1,1,0,0],Res=5,C
 	data = data[use]
 	
 	#create continuous time axis
-	utc = np.copy(data.ut)
-	dt = np.where(utc[1:] < utc[:-1])[0]
-	for i in range(0,dt.size):
-		dd = TT.DateDifference(data.Date[dt[i]],data.Date[dt[i]+1])
-		utc[dt[i]+1:] += 24.0*dd
+	utc = data.utc
 		
 	#create plot window and axis
 	if fig is None:
@@ -119,7 +115,7 @@ def PlotOMNI(Param,Date,ut=[0.0,24.0],Color=None,fig=None,maps=[1,1,0,0],Res=5,C
 			y[bad] = np.nan
 		ax.plot(utc,y,color=col,label=ParInfo[pars[i]],**kwargs)
 		
-	_DTPlotLabel(fig,utc,data.Date)
+	TT.DTPlotLabel(ax,TickFreq='auto')
 	ax.legend()
 	return ax
 	
