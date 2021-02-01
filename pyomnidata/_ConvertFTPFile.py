@@ -111,11 +111,11 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	out = np.recarray(n,dtype=outdtype)
 
 	#convert dates
-	for i in range(0,n):
-		out.Date[i] = TT.DayNotoDate(data.Year[i],data.DOY[i])
+	out.Date = TT.DayNotoDate(data.Year,data.DOY)
 
 	#convert time
 	out.ut = data.Hour + data.Minute/60.0
+	out.utc = TT.ContUT(out.Date,out.ut)
 	
 
 	#copy new data across

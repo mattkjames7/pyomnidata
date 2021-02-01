@@ -14,7 +14,7 @@ loaded5 = {}
 
 #some dtypes
 
-dtype1 = [('Date','int32'),('ut','float32'),
+dtype1 = [('Date','int32'),('ut','float32'),('utc','float64'),
 		('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
 		('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 		('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
@@ -27,7 +27,7 @@ dtype1 = [('Date','int32'),('ut','float32'),
 		('Zbsn','float32'),('AE','float32'),('AL','float32'),('AU','float32'),
 		('SymD','float32'),('SymH','float32'),('AsyD','float32'),('AsyH','float32'),
 		('PC','float32'),('Ms','float32')]
-dtype5 = [('Date','int32'),('ut','float32'),
+dtype5 = [('Date','int32'),('ut','float32'),('utc','float64'),
 		('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
 		('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 		('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
