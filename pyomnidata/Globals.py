@@ -13,7 +13,6 @@ loaded1 = {}
 loaded5 = {}
 
 #some dtypes
-
 dtype1 = [('Date','int32'),('ut','float32'),('utc','float64'),
 		('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
 		('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
