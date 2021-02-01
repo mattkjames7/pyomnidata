@@ -41,3 +41,11 @@ dtype5 = [('Date','int32'),('ut','float32'),
 		('SymD','float32'),('SymH','float32'),('AsyD','float32'),('AsyH','float32'),
 		('PC','float32'),('Ms','float32'),('Pflux10','float32'),('Pflux30','float32'),
 		('Pflux60','float32')]
+
+
+fdtype = [	('Date','int32'),
+			('ut','float32'),
+			('utc','float64'),
+			('F10_7','float32') ]
+
+SolarFlux = None
