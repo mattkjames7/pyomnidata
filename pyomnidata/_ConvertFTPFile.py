@@ -138,7 +138,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	outfname = 'OMNI-{:1d}min-{:4d}.bin'.format(Res,Year)
 	outpath = Globals.DataPath+'{:1d}/'.format(Res)
 	if not os.path.isdir(outpath):
-		os.system('mkdir -pv '+outpath)
+		os.makedirs(outpath)
 	RT.SaveRecarray(out,outpath+outfname)
 	print('Saved file: '+outfname)
 	

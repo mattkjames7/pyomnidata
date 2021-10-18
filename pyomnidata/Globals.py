@@ -8,6 +8,10 @@ except:
 	print('Please set OMNIDATA_PATH environment variable')
 	DataPath = ''
 
+ftpbase = 'spdf.gsfc.nasa.gov'
+ftpdir = 'pub/data/omni/high_res_omni/'
+ftpadress = 'ftp://spdf.gsfc.nasa.gov/pub/data/omni/high_res_omni/'
+
 #loaded data
 loaded1 = {}
 loaded5 = {}

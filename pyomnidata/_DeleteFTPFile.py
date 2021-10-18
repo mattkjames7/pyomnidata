@@ -9,5 +9,5 @@ def _DeleteFTPFile(fname):
 		fname: full path to file to delete
 	
 	'''
-	os.system('rm -v '+fname)
+	os.remove(fname)
 	

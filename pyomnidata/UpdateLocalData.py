@@ -1,5 +1,5 @@
-import os
 import numpy as np
+from ftplib import FTP_TLS
 from . import Globals
 from ._ReadDataIndex import _ReadDataIndex
 from ._DownloadFTPIndex import _DownloadFTPIndex
@@ -15,11 +15,15 @@ def UpdateLocalData(Force=False):
 	the local archive.
 	
 	'''
-	
+	ftp = FTP_TLS(Globals.ftpbase)
+	ftp.login()  
+	ftp.cwd(Globals.ftpdir)
+		
 	#let's download and read the FTP index
-	status = _DownloadFTPIndex()
+	status = _DownloadFTPIndex(ftp)
 	if not status:
 		print('Download failed; check for write permission to data folder')
+		ftp.close()
 		return
 	FileNames,Addresses,UpdateDates,Res = _ParseFTP()
 	n = np.size(FileNames)
@@ -41,12 +45,13 @@ def UpdateLocalData(Force=False):
 
 	if n == 0:
 		print('No files to update.')
+		ftp.close()
 		return 
 		
 	for i in range(0,n):
 		print('Downloading file {0} of {1}'.format(i+1,n))
 		#download file
-		tmp = _DownloadFTPFile(Addresses[i],FileNames[i])
+		tmp = _DownloadFTPFile(ftp,FileNames[i])
 		
 		print('Converting to binary')
 		#convert file
@@ -55,5 +60,7 @@ def UpdateLocalData(Force=False):
 		#delete text file
 		_DeleteFTPFile(tmp)
 		
+	
+	ftp.close()
 	print('Done')
 	

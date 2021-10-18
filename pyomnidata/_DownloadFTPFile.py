@@ -1,7 +1,6 @@
-import os
 from . import Globals
 
-def _DownloadFTPFile(addr,fname):
+def _DownloadFTPFile(ftp,fname):
 	'''
 	Downloads a file from an FTP site, returns the full path of the 
 	local version of that file.
@@ -15,8 +14,9 @@ def _DownloadFTPFile(addr,fname):
 		full path to downloaded file
 	'''
 	
-	#wget the file
-	os.system('wget '+addr+' -O '+Globals.DataPath+'tmp/'+fname)
+	#download binary file using ftplib
+	foo=open(Globals.DataPath+'tmp/'+fname,"wb")	
+	ftp.retrbinary('RETR '+fname, foo.write)
 	
 
 	#return the file name

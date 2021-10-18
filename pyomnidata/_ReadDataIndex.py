@@ -9,7 +9,7 @@ def _ReadDataIndex():
 	resolutions.
 	'''
 	#define the datatype
-	dtype = [('FileName','object'),('OldFileName','object'),('UpdateDate','int32'),('Res','int32')]
+	dtype = [('FileName','object'),('OldFileName','object'),('UpdateDate','object'),('Res','int32')]
 	
 	#check if the index file exists
 	fname = Globals.DataPath+'DataIndex.dat'
