@@ -25,6 +25,8 @@ def UpdateLocalData(Force=False):
 		print('Download failed; check for write permission to data folder')
 		ftp.close()
 		return
+	ftp.close()
+		
 	FileNames,Addresses,UpdateDates,Res = _ParseFTP()
 	n = np.size(FileNames)
 	
@@ -51,7 +53,7 @@ def UpdateLocalData(Force=False):
 	for i in range(0,n):
 		print('Downloading file {0} of {1}'.format(i+1,n))
 		#download file
-		tmp = _DownloadFTPFile(ftp,FileNames[i])
+		tmp = _DownloadFTPFile(FileNames[i])
 		
 		print('Converting to binary')
 		#convert file

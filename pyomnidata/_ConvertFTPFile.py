@@ -110,13 +110,22 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	n = np.size(data)
 	out = np.recarray(n,dtype=outdtype)
 
+	nf = np.size(out.dtype.names)
+	progress = 0
+	print('\r[' + '='*progress + '-'*(nf-progress)+']',end='')
+
 	#convert dates
 	out.Date = TT.DayNotoDate(data.Year,data.DOY)
-
+	progress += 1
+	print('\r[' + '='*progress + '-'*(nf-progress)+']',end='')
+	
 	#convert time
 	out.ut = data.Hour + data.Minute/60.0
+	progress += 1
+	print('\r[' + '='*progress + '-'*(nf-progress)+']',end='')
 	out.utc = TT.ContUT(out.Date,out.ut)
-	
+	progress += 1
+	print('\r[' + '='*progress + '-'*(nf-progress)+']',end='')	
 
 	#copy new data across
 	fields = data.dtype.names
@@ -127,8 +136,9 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 			if bad.size > 0:
 				if 'float' in str(out[f].dtype):
 					out[f][bad] = np.nan
-
-				
+			progress += 1
+			print('\r[' + '='*progress + '-'*(nf-progress)+']',end='')
+	print()			
 			
 	#get the year from the file name		
 	Year = np.int32(fname[-8:-4])
@@ -139,7 +149,8 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	outpath = Globals.DataPath+'{:1d}/'.format(Res)
 	if not os.path.isdir(outpath):
 		os.makedirs(outpath)
-	RT.SaveRecarray(out,outpath+outfname)
+	print('Saving')
+	RT.SaveRecarray(out,outpath+outfname,Progress=True)
 	print('Saved file: '+outfname)
 	
 	
