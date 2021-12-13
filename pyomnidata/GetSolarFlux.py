@@ -20,6 +20,8 @@ def GetSolarFlux(Date=None):
 	out : numpy.recarray
 		solar flux data
 	'''
+	if(os.name=='nt'):
+		raise Exception("This function is not supported on Windows")
 
 	if Globals.SolarFlux is None:
 		Globals.SolarFlux = _ReadSolarFlux()

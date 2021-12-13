@@ -1,4 +1,3 @@
-import os
 from . import Globals
 import PyFileIO as pf
 import numpy as np
@@ -48,21 +47,14 @@ def _ParseFTP():
 	nl = lines.size
 	
 	#now to extract the FTP address, file name and update dates
-	UpdateDates = np.zeros(nl,dtype='int32')
+	UpdateDates = np.zeros(nl,dtype='object')
 	Addresses = np.zeros(nl,dtype='object')
 	FileNames = np.zeros(nl,dtype='object')
-	Months = {'Jan':1,'Feb':2,'Mar':3,'Apr':4,'May':5,'Jun':6,
-				'Jul':7,'Aug':8,'Sep':9,'Oct':10,'Nov':11,'Dec':12}
 	
 	for i in range(0,nl):
 		#deal with date first
-		lstr = _HTMLStrip(lines[i])
-		s = lstr.split()
-		ds = s[1].split('-')
-		yr = np.int32(ds[0])
-		mn = np.int32(ds[1])
-		dy = np.int32(ds[2])
-		UpdateDates[i] = yr*10000 + mn*100 + dy
+		s = lines[i].split()
+		UpdateDates[i] = s[1]
 		
 		#now let's get the ftp address
 		#s = lines[i].split('"')
