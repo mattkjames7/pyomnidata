@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyomnidata",
-    version="1.0.0",
+    version="1.0.1",
     author="Matthew Knight James",
     author_email="mattkjames7@gmail.com",
     description="Python tool for downloading, converting and reading OMNI solar wind data.",
@@ -25,7 +25,7 @@ setuptools.setup(
 		'matplotlib',
 		'RecarrayTools',
 		'PyFileIO',
-		'DateTimeTools',
+		'DateTimeTools>=1.0.1',
 	],
 )
 

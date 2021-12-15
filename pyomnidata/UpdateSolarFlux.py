@@ -12,8 +12,7 @@ def UpdateSolarFlux(EndDate=20210124):
 		Last date to ask for F10.7 flux (this is probably usually a few
 		days prior to the current date)
 	'''
-	if(os.name=='nt'):
-		raise Exception("This function is not supported on Windows")
+
 	
 	#download the new list
 	_DownloadF107(EndDate)
