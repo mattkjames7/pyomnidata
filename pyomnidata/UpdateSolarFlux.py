@@ -1,5 +1,6 @@
 from ._DownloadF107 import _DownloadF107
 from ._ConvertSolarFlux import _ConvertSolarFlux
+import os
 
 def UpdateSolarFlux(EndDate=20210124):
 	'''

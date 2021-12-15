@@ -1,7 +1,7 @@
 import numpy as np
 import os
 from . import Globals
-import urllib
+from urllib import request
 
 def _DownloadF107(EndDate):
 	'''

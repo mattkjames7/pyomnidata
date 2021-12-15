@@ -1,6 +1,7 @@
 import numpy as np
 from . import Globals
 from ._ReadSolarFlux import _ReadSolarFlux
+import os
 
 def GetSolarFlux(Date=None):
 	'''
