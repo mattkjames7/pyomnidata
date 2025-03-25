@@ -1,0 +1,16 @@
+name: "Monthly Test"
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # Runs at midnight UTC on the 1st of every month
+
+jobs:
+  package_and_test:
+    uses: ./.github/workflows/reusable_package.yml
+    strategy:
+        fail-fast: false
+        matrix:
+            python_version: ["3.10","3.11","3.12","3.13"]
+    with:
+        python_version: "${{ matrix.python_version }}"
+        run_tests: "true"
