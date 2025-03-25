@@ -1,8 +1,9 @@
 from ._DownloadF107 import _DownloadF107
 from ._ConvertSolarFlux import _ConvertSolarFlux
 import os
+from datetime import datetime
 
-def UpdateSolarFlux(EndDate=20210124):
+def UpdateSolarFlux(EndDate=None):
 	'''
 	Download the lates Solar flux data
 	
@@ -13,6 +14,8 @@ def UpdateSolarFlux(EndDate=20210124):
 		days prior to the current date)
 	'''
 
+	if EndDate is None:
+		EndDate = datetime.now().strftime("%Y%m%d")
 	
 	#download the new list
 	_DownloadF107(EndDate)
