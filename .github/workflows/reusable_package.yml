@@ -1,0 +1,82 @@
+name: "Package and Test pyomnidata"
+
+on:
+  workflow_call:
+    inputs: 
+      python_version:
+        type: string
+        description: "Python version to use for packaging and tests"
+        required: true
+      run_tests:
+        type: string
+        description: "Run tests"
+        default: "true"
+jobs:
+  package_and_test:
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v3
+           
+      - name: Build Docker Image
+        run: |
+          pyver="${{ inputs.python_version }}"
+          pyref="py${pyver//./}"
+          docker_image="pyomnidata:${pyref}"
+          echo "Docker image: ${docker_image}"
+          echo "docker_image=${docker_image}" >> $GITHUB_ENV
+          docker build --target $pyref -t $docker_image .
+
+      - name: Run Docker Image
+        run: |
+          echo "docker_image is '${{ env.docker_image }}'"
+          docker_container=omnitest
+          echo "docker_container=$docker_container" >> $GITHUB_ENV
+          docker run --name $docker_container --rm -d ${{ env.docker_image }}
+
+      - name: Build Package
+        run: |
+          docker exec -u omni ${{ env.docker_container }} bash -c "cd /pyomnidata && source /app/venv/bin/activate && python setup.py bdist_wheel"
+          pkg=$(docker exec -u omni ${{ env.docker_container }} bash -c "cd /pyomnidata/dist && ls")
+          echo "Built package: $pkg"
+          echo "pkg=$pkg" >> $GITHUB_ENV
+
+      - name: Install Package
+        run: |
+          docker exec -u omni ${{ env.docker_container }} bash -c "cd /pyomnidata/dist && /app/venv/bin/pip install $pkg"
+
+      - name: Copy Package
+        run: |
+          docker cp $docker_container:/pyomnidata/dist/$pkg .
+
+      - name: Test Update
+        if: ${{ inputs.run_tests == 'true' }}
+        run: |
+          echo "Run update test"
+          docker exec -u omni ${{ env.docker_container }} bash -c \
+          "source /app/venv/bin/activate && /pyomnidata/tests/test_update.sh"
+
+      - name: Test Read
+        if: ${{ inputs.run_tests == 'true' }}
+        run: |
+          echo "Run read test"
+          docker exec -u omni ${{ env.docker_container }} bash -c \
+          "/app/venv/bin/python /pyomnidata/tests/test_read.py"          
+
+      - name: Test Get
+        if: ${{ inputs.run_tests == 'true' }}
+        run: |
+          echo "Run get test"
+          docker exec -u omni ${{ env.docker_container }} bash -c \
+          "/app/venv/bin/python /pyomnidata/tests/test_get.py"  
+
+      - name: Clean Up
+        if: always()
+        run: |
+          docker stop ${{ env.docker_container }}
