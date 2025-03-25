@@ -1,13 +1,16 @@
 import setuptools
 from setuptools.command.install import install
 import os
+from getversion import getversion
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+version = getversion()
+
 setuptools.setup(
     name="pyomnidata",
-    version="1.0.1",
+    version=version,
     author="Matthew Knight James",
     author_email="mattkjames7@gmail.com",
     description="Python tool for downloading, converting and reading OMNI solar wind data.",
