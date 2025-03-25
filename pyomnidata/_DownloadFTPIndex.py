@@ -11,7 +11,7 @@ def _DownloadFTPIndex(ftp):
 	
 	'''
 	#check that the temporary folder exists
-	if not os.path.isdir(f"{Globals.DataPat}/tmp"):
+	if not os.path.isdir(f"{Globals.DataPath}/tmp"):
 		os.makedirs(f"{Globals.DataPath}/tmp")
 
 	#download using ftplib
