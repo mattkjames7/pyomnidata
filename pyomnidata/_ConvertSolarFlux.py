@@ -10,8 +10,7 @@ def _ConvertSolarFlux():
 	'''
 
 	#get the ascii file name
-	fname0 = Globals.DataPath + 'F107.lst'
-
+	fname0 = f"{Globals.DataPath}/F107.lst"
 	#read the ascii file
 	lines = pf.ReadASCIIFile(fname0)
 	
@@ -43,5 +42,5 @@ def _ConvertSolarFlux():
 	data.F10_7 = np.float32(s[:,3])
 	
 	#save the new file
-	fname1 = Globals.DataPath + 'F107.bin'
+	fname1 = f"{Globals.DataPath}/F107.bin"
 	RT.SaveRecarray(data,fname1)

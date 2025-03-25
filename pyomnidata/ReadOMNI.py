@@ -19,7 +19,7 @@ def ReadOMNI(Year,Res=5):
 	else:
 		dtype = Globals.dtype5
 		
-	fname = Globals.DataPath+'{:1d}/'.format(Res)+'OMNI-{:1d}min-{:4d}.bin'.format(Res,Year)
+	fname = f"{Globals.DataPath}/{Res:1d}/OMNI-{Res:1d}min-{Year:4d}.bin"
 	
 	if not os.path.isfile(fname):
 		print('File not found: '+fname)

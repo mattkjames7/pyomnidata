@@ -12,7 +12,7 @@ def _ReadDataIndex():
 	dtype = [('FileName','object'),('OldFileName','object'),('UpdateDate','object'),('Res','int32')]
 	
 	#check if the index file exists
-	fname = Globals.DataPath+'DataIndex.dat'
+	fname = f"{Globals.DataPath}/DataIndex.dat"
 	if not os.path.isfile(fname):
 		return np.recarray(0,dtype=dtype)
 		

@@ -56,7 +56,7 @@ def _DownloadFTPFile(fname):
 	ftp.cwd(Globals.ftpdir)
 	
 	#open the output file
-	f = open(Globals.DataPath+'tmp/'+fname,"wb")	
+	f = open(f"{Globals.DataPath}/tmp/{fname}","wb")	
 
 	#get the callback function
 	global progress
@@ -75,4 +75,4 @@ def _DownloadFTPFile(fname):
 	ftp.close()	
 
 	#return the file name
-	return Globals.DataPath+'tmp/'+fname
+	return f"{Globals.DataPath}/tmp/{fname}"

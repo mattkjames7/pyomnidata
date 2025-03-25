@@ -7,6 +7,6 @@ def _ReadSolarFlux():
 	Read the solar flux data from disk.
 	
 	'''
-	fname = Globals.DataPath + 'F107.bin'
+	fname = f"{Globals.DataPath}/F107.bin"
 	
 	return RT.ReadRecarray(fname,Globals.fdtype)

@@ -10,5 +10,5 @@ def _UpdateDataIndex(idx):
 			and dates for all data files
 	'''
 	
-	fname = Globals.DataPath+'DataIndex.dat'
+	fname = f"{Globals.DataPath}/DataIndex.dat"
 	pf.WriteASCIIData(fname,idx)

@@ -1,12 +1,15 @@
 import os
 
 #try and find the OMNIDATA_PATH variable - this is where data will be stored
-ModulePath = os.path.dirname(__file__)+'/'
-try:
-	DataPath = os.getenv('OMNIDATA_PATH')+'/'
-except:
-	print('Please set OMNIDATA_PATH environment variable')
-	DataPath = ''
+ModulePath = os.path.dirname(__file__)
+
+DataPath = os.getenv('OMNIDATA_PATH')
+if not DataPath:
+	DataPath = f"{os.getenv('HOME')}/omnidata"
+	if not os.path.isdir(DataPath):
+		print(f"$OMNIDATA_PATH not set, creating: {DataPath}")
+		print('Please set OMNIDATA_PATH environment variable to use a different path')
+		os.makedirs(DataPath)
 
 ftpbase = 'spdf.gsfc.nasa.gov'
 ftpdir = 'pub/data/omni/high_res_omni/'

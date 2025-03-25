@@ -145,12 +145,12 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 	
 	
 	#save file
-	outfname = 'OMNI-{:1d}min-{:4d}.bin'.format(Res,Year)
-	outpath = Globals.DataPath+'{:1d}/'.format(Res)
+	outfname = f"OMNI-{Res:1d}min-{Year:4d}.bin"
+	outpath = f"{Globals.DataPath}/{Res:1d}"
 	if not os.path.isdir(outpath):
 		os.makedirs(outpath)
 	print('Saving')
-	RT.SaveRecarray(out,outpath+outfname,Progress=True)
+	RT.SaveRecarray(out,f"{outpath}/{outfname}",Progress=True)
 	print('Saved file: '+outfname)
 	
 	
