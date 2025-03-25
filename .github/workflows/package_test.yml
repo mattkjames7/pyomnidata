@@ -1,0 +1,63 @@
+name: "Package Test"
+
+on: 
+    push:
+        tags:
+        - "v*.*.*"
+    pull_request:
+    workflow_dispatch:
+        inputs:
+            python_version:
+                type: choice
+                description: "Python version to run package test on"
+                default: "3.13"
+                options:
+                    - "3.10"
+                    - "3.11"
+                    - "3.12"
+                    - "3.13"
+            run_tests:
+                type: boolean
+                description: "Run tests"
+                default: true
+            run_all:
+                type: boolean
+                description: "Run all tests"
+                default: false
+
+jobs:
+    manual_test:
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.run_all == 'false'
+        uses: ./.github/workflows/reusable_package.yml
+        with:
+            python_version: ${{ github.event.inputs.python_version }}
+            run_tests: "${{ github.event.inputs.run_tests }}"
+
+
+    manual_test_all:
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.run_all == 'true'
+        uses: ./.github/workflows/reusable_package.yml
+        strategy:
+            fail-fast: false
+            matrix:
+                python_version: ["3.10","3.11","3.12","3.13"]
+        with:
+            python_version: "${{ matrix.python_version }}"
+            run_tests: "${{ github.event.inputs.run_tests }}"
+            
+    pull_request:
+        if: github.event_name == 'pull_request'
+        uses: ./.github/workflows/reusable_package.yml
+        strategy:
+            matrix:
+                python_version: ["3.10","3.11","3.12","3.13"]
+        with:
+            python_version: "${{ matrix.python_version }}"
+            run_tests: "true"
+            
+    release:
+        if: github.ref_type == 'tag'
+        uses: ./.github/workflows/reusable_package.yml
+        with:
+            python_version: ${{ github.event.inputs.python_version }}  
+            run_tests: "true"
