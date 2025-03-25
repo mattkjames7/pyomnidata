@@ -30,7 +30,7 @@ def _ParseFTP():
 	
 	'''
 	#read the file in
-	fname = Globals.DataPath+'tmp/index.html'
+	fname = f"{Globals.DataPath}/tmp/index.html"
 	lines = pf.ReadASCIIFile(fname)
 	nl = np.size(lines)
 	
