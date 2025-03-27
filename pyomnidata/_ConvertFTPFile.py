@@ -73,7 +73,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 				'Pflux60':99999.99}
 	if Res == 1:
 		indtype = [('Year','int32'),('DOY','int32'),('Hour','int32'),('Minute','int32'),
-					('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
+					('SC_IMF','uint32'),('SC_Plasma','uint32'),('N_IMF','int32'),('N_Plasma','int32'),
 					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
 					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
@@ -88,7 +88,7 @@ def _ConvertFTPFile(FullPath,fname,UpdateDate,Res):
 		outdtype = Globals.dtype1
 	else:
 		indtype = [('Year','int32'),('DOY','int32'),('Hour','int32'),('Minute','int32'),
-					('SC_IMF','uint8'),('SC_Plasma','uint8'),('N_IMF','int32'),('N_Plasma','int32'),
+					('SC_IMF','uint32'),('SC_Plasma','uint32'),('N_IMF','int32'),('N_Plasma','int32'),
 					('PercInterp','float32'),('TimeShift','float32'),('RMSTimeShift','float32'),
 					('RMSPhaseFrontNorm','float32'), ('dTime','float32'),('B','float32'),
 					('BxGSE','float32'),('ByGSE','float32'),('BzGSE','float32'),('ByGSM','float32'),
