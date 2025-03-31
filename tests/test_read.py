@@ -4,7 +4,7 @@ import numpy as np
 def main():
 
     # quick test to check that we can read the data in, pick a year that is not this year!
-    year = 2010
+    year = 1991
     try:
         data = pyomnidata.ReadOMNI(year,5)
     except:

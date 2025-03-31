@@ -15,7 +15,7 @@ def UpdateSolarFlux(EndDate=None):
 	'''
 
 	if EndDate is None:
-		EndDate = datetime.now().strftime("%Y%m%d")
+		EndDate = int(datetime.now().strftime("%Y%m%d"))
 	
 	#download the new list
 	_DownloadF107(EndDate)

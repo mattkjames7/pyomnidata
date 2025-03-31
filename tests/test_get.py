@@ -5,7 +5,7 @@ import numpy as np
 def get_date():
 
     try:
-        data = pyomnidata.GetOMNI(2010,5)
+        data = pyomnidata.GetOMNI(1990,5)
     except:
         print("Failed to read data")
         raise RuntimeError
@@ -14,23 +14,23 @@ def get_date():
 
     assert data.size == 105120, f"Unexpected amount of data: {data.size}"
 
-    assert all(data.Date // 10000 == 2010), "Unexpected date found"
+    assert all(data.Date // 10000 == 1990), "Unexpected date found"
 
     return 0
 
 def get_date_range():
 
     try:
-        data = pyomnidata.GetOMNI([2010,2013],5)
+        data = pyomnidata.GetOMNI([1990,1992],5)
     except:
         print("Failed to read data")
         raise RuntimeError
     
     assert isinstance(data,np.recarray), "Data should be np.recarray"
 
-    assert data.size == 420768, f"Unexpected amount of data: {data.size}"
+    assert data.size == 315648, f"Unexpected amount of data: {data.size}"
 
-    assert all((data.Date >= 20100101) & (data.Date <= 20131231)), "Unexpected date found"
+    assert all((data.Date >= 19900101) & (data.Date <= 19921231)), "Unexpected date found"
 
     return 0
 

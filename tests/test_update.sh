@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Update OMNI data
-python -c "import pyomnidata; pyomnidata.UpdateLocalData()"
+# Update OMNI data (do a limited range because it takes ages)
+python -c "import pyomnidata; pyomnidata.UpdateLocalData(yearRange=[1990,1992])"
 if [ $? -ne 0 ]; then
   echo "UpdateLocalData() failed, exiting."
   exit 1
