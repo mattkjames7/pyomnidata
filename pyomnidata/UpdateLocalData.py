@@ -9,7 +9,7 @@ from ._DownloadFTPFile import _DownloadFTPFile
 from ._ConvertFTPFile import _ConvertFTPFile
 from ._DeleteFTPFile import _DeleteFTPFile
 
-def UpdateLocalData(Force=False):
+def UpdateLocalData(Force=False,yearRange=None):
 	'''
 	This will download and convert any OMNI data which is missing from 
 	the local archive.
@@ -37,7 +37,7 @@ def UpdateLocalData(Force=False):
 	if Force:
 		update = np.ones(n,dtype='bool')
 	else:
-		update = _CompareUpdates(UpdateDates,FileNames,idx)
+		update = _CompareUpdates(UpdateDates,FileNames,idx,yearRange=yearRange)
 	use = np.where(update)[0]
 	FileNames = FileNames[use]
 	Addresses = Addresses[use]
