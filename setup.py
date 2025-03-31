@@ -29,6 +29,7 @@ setuptools.setup(
 		'RecarrayTools',
 		'PyFileIO',
 		'DateTimeTools>=1.0.1',
+        'requests'
 	],
 )
 
