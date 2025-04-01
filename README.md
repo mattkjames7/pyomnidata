@@ -1,4 +1,7 @@
 # pyomnidata
+
+![Monthly Test Status](https://github.com/mattkjames7/pyomnidata/actions/workflows/monthly_test.yml/badge.svg)
+
 Python tool for downloading, converting and reading OMNI solar wind data.
 
 If you make use of the OMNI data please acknowledge and cite as specified here: https://omniweb.gsfc.nasa.gov/html/citing.html
