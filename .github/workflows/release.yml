@@ -91,7 +91,7 @@ jobs:
           docker_image="pyomnidata:${pyref}"
           echo "Docker image: ${docker_image}"
           echo "docker_image=${docker_image}" >> $GITHUB_ENV
-          docker build -e PYTHON_VERSION=3.14 -t $docker_image .
+          docker build --build-arg PYTHON_VERSION=3.14 -t $docker_image .
 
       - name: Run Docker Container
         run: |
