@@ -11,8 +11,13 @@ on:
         type: string
         description: "Run tests"
         default: "true"
+
+env:
+  PYTHON_VERSION: ${{ inputs.python_version }}
+
 jobs:
   package_and_test:
+    name: "Package and Test pyomnidata with Python ${{ inputs.python_version }}"
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout current branch
@@ -26,12 +31,12 @@ jobs:
            
       - name: Build Docker Image
         run: |
-          pyver="${{ inputs.python_version }}"
+          pyver="$PYTHON_VERSION"
           pyref="py${pyver//./}"
           docker_image="pyomnidata:${pyref}"
           echo "Docker image: ${docker_image}"
           echo "docker_image=${docker_image}" >> $GITHUB_ENV
-          docker build --target $pyref -t $docker_image .
+          docker build -e PYTHON_VERSION=$PYTHON_VERSION -t $docker_image .
 
       - name: Run Docker Image
         run: |
